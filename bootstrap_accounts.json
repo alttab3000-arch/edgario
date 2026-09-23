@@ -1,0 +1,20 @@
+[
+  {
+    "email": "lex",
+    "salt": "ooasM2OmTmcc/1noqDHV7w==",
+    "iv": "Y4QV8xjoZapWNRUt",
+    "data": "Q8w8HBlPXLvacaY+ZHB3jKqVJhX+zZgml4acYtOqKEh2L0o1yUA54Bh0pNS98h3R+EKJQsCqP6+3d1hRu/kX1AudHMTJGoJOezGYLGI3Kpwckhb2jqol+jgyeAJ/DpkxWunXScLLf/Tljzgz1FMg",
+    "iterations": 600000,
+    "password_salt": "AhdrDNcwMnp1xM3nX0zNYA==",
+    "password_hash": "mOK28TqMGocNiNP/9pkJTwPplJAsnrRYi6b585hBW80="
+  },
+  {
+    "email": "edgar",
+    "salt": "6HlfL+SmCZQ+dx0WUOTTjQ==",
+    "iv": "yPabQVPLCuivdpiQ",
+    "data": "zRfh5uzQpJSUXDWf1ZkbwrVZmV4IvGASW/6O6nBi+yhj08y7CsN6UMr0rWuoWRaoS0pOCI7Cjtgs0ff6k9Hr7CHSwBlYuotjnD2uUi5WDflAcKQnXUouDjyVJ9dYlhvZaVBlSxhctP10LeipSVO46hA=",
+    "iterations": 600000,
+    "password_salt": "GKiKFPnaHFU6yvAuyBXTWQ==",
+    "password_hash": "0g0hF7kITrgcA3n7xyOegNz5MK7s419gmHpsElpO7rs="
+  }
+]
