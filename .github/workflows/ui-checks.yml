@@ -1,0 +1,55 @@
+name: Edgario UI checks
+on:
+  push:
+    branches: [edgario-dark-ui-personal-dates]
+    paths: ['ui/**', 'index.html', 'server.py', 'Dockerfile', '.github/workflows/ui-checks.yml']
+  pull_request:
+    paths: ['ui/**', 'index.html', 'server.py', 'Dockerfile', '.github/workflows/ui-checks.yml']
+permissions:
+  contents: read
+concurrency:
+  group: edgario-ui-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  browser:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Bundle UI and check single-script contract
+        run: |
+          python3 ui/build.py
+          sha256sum index.html > /tmp/edgario-index.sha256
+          python3 ui/build.py
+          sha256sum --check /tmp/edgario-index.sha256
+          python3 - <<'PY'
+          import re
+          from pathlib import Path
+          html = Path('index.html').read_text()
+          assert html.count('<script>') == html.count('</script>') == 1
+          assert html.count('<style>') == html.count('</style>') == 1
+          Path('/tmp/edgario-app.js').write_text(re.search(r'<script>(.*?)</script>', html, re.S).group(1))
+          PY
+          node --check /tmp/edgario-app.js
+      - name: Install browser test dependencies
+        run: |
+          python3 -m pip install playwright==1.55.0
+          python3 -m playwright install --with-deps chromium
+      - name: Test real app on isolated server
+        run: python3 ui/test_browser.py
+      - name: Assemble review files only
+        if: always()
+        run: |
+          mkdir -p ui-results
+          cp index.html ui-results/index.html
+          cp server.py ui-results/server.py
+          cp ui/build.py ui/refresh.js ui/theme.css ui/test_browser.py ui-results/
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: edgario-ui-review
+          path: ui-results/
+          retention-days: 7
+          if-no-files-found: error
